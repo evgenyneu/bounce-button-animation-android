@@ -9,24 +9,6 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-
-class SpringInterpolator implements android.view.animation.Interpolator {
-    double mInitialSpringVelocity = 10;
-    double mDamping = 2;
-
-    SpringInterpolator(double initialSpringVelocity, double damping) {
-        mDamping = damping;
-        mInitialSpringVelocity = initialSpringVelocity;
-    }
-
-    public float getInterpolation(float t) {
-        double time = (double) t;
-        double dampingMultiplier = 10;
-        double velocityMultiplier = 10;
-        return (float) (-Math.pow(Math.E, -mDamping * dampingMultiplier * time) * Math.cos(mInitialSpringVelocity * velocityMultiplier * time) + 1);
-    }
-}
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -35,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setupDampingSeekBar();
         setupVelocitySeekBar();
+        setupDurationVar();
     }
 
     void updateTextViewValue(TextView textView, String prefix, double value) {
@@ -52,10 +35,46 @@ public class MainActivity extends AppCompatActivity {
 
     void animateButton() {
         final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        myAnim.setDuration((long)getDurationValue() * (long)1000.0);
         SpringInterpolator interpolator = new SpringInterpolator(getVelocityValue(), getDampingValue());
         myAnim.setInterpolator(interpolator);
         Button button = (Button)findViewById(R.id.play_button);
         button.startAnimation(myAnim);
+    }
+
+    // Duration controls
+    // ---------------
+
+    void setupDurationVar() {
+        final SeekBar seekBar =(SeekBar) findViewById(R.id.seek_bar_duration);
+        seekBar.setProgress(20);
+        updateDurationLabel();
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                animateButton();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                updateDurationLabel();
+            }
+        });
+    }
+
+    void updateDurationLabel() {
+        TextView textView = (TextView) findViewById(R.id.text_view_duration);
+        updateTextViewValue(textView, "Duration", getDurationValue());
+    }
+
+    double getDurationValue() {
+        final SeekBar seekBar = (SeekBar) findViewById(R.id.seek_bar_duration);
+        return getSeekBarValue(seekBar, 0.1);
     }
 
 
