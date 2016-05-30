@@ -7,13 +7,34 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.evgenii.bubblebutton.MainActivity"
-    android:gravity="center_horizontal">
+    tools:context="com.evgenii.bubblebutton.MainActivity" >
 
     <TextView
+    android:id="@+id/text_view_damping"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true" />
+
+    <SeekBar
+        android:id="@+id/seek_bar_damping"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_damping"
+        android:max="39"/>
+
+    <TextView
+        android:id="@+id/text_view_velocity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_below="@id/seek_bar_damping"
+        android:layout_centerHorizontal="true" />
+
+    <SeekBar
+        android:id="@+id/seek_bar_velocity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_velocity"
+        android:max="99"/>
 
     <Button
         android:id="@+id/play_button"
@@ -21,5 +42,6 @@
         android:layout_height="@dimen/button_size"
         android:layout_alignParentBottom="true"
         android:onClick="didTapPlayButton"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/play" />
 </RelativeLayout>

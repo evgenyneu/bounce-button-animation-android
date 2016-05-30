@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 
 class SpringInterpolator implements android.view.animation.Interpolator {
@@ -30,12 +33,65 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupDampingSeekBar();
+    }
+
+    void updateTextViewValue(TextView textView, String prefix, double value) {
+        String text = String.format("%s: %.2f", prefix, value);
+        textView.setText(text);
+    }
+
+    double getSeekBarValue(SeekBar seekBar, double step) {
+        return (seekBar.getProgress() + 1) / ( 1 / step);
     }
 
     public void didTapPlayButton(View view) {
+        animateButton();
+    }
+
+    void animateButton() {
         final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
-        SpringInterpolator interpolator = new SpringInterpolator(6, 0.2);
+        SpringInterpolator interpolator = new SpringInterpolator(6, getDampingValue());
         myAnim.setInterpolator(interpolator);
-        view.startAnimation(myAnim);
+        Button button = (Button)findViewById(R.id.play_button);
+        button.startAnimation(myAnim);
+    }
+
+
+    // Damping controls
+    // ---------------
+
+    void setupDampingSeekBar() {
+        final SeekBar dampingSeekBar =(SeekBar) findViewById(R.id.seek_bar_damping);
+        dampingSeekBar.setProgress(10);
+        updateDampingLabel();
+
+        dampingSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                animateButton();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                updateDampingLabel();
+            }
+        });
+    }
+
+    void updateDampingLabel() {
+        TextView textViewDamping = (TextView) findViewById(R.id.text_view_damping);
+        updateTextViewValue(textViewDamping, "Damping", getDampingValue());
+    }
+
+    double getDampingValue() {
+        final SeekBar dampingSeekBar = (SeekBar) findViewById(R.id.seek_bar_damping);
+        return getSeekBarValue(dampingSeekBar, 0.05);
     }
 }
