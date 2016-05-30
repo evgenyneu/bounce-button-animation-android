@@ -1,11 +1,12 @@
 package com.evgenii.bubblebutton;
 
 //
-// Interpolator to be used with animation to achieve the spring-bounce effect.
+// Interpolator to be used with view Animation to achieve the spring-bounce effect.
+//
 // License: MIT
 // Source: http://evgenii.com
 //
-// Usage example:
+// Usage example, change the scale of a button:
 // ------------
 //
 //    // Start animation

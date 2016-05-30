@@ -67,10 +67,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void playSound() {
-        if (mPlayer == null) {
-            mPlayer = MediaPlayer.create(MainActivity.this, R.raw.bubble);
+        if (mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.reset();
         }
-        mPlayer.seekTo(0);
+
+        mPlayer = MediaPlayer.create(MainActivity.this, R.raw.bubble);
         mPlayer.start();
     }
 
