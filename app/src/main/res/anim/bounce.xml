@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:interpolator="@android:anim/bounce_interpolator" >
+<set xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <scale
-        android:duration="3000"
+        android:duration="2000"
         android:fromXScale="0.5"
         android:toXScale="1.0"
         android:fromYScale="0.5"
