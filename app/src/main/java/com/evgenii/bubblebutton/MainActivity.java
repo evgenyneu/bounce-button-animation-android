@@ -1,5 +1,6 @@
 package com.evgenii.bubblebutton;
 
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    MediaPlayer mPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
         setupDampingSeekBar();
         setupVelocitySeekBar();
         setupDurationVar();
+    }
+
+    public void onDestroy() {
+        mPlayer.stop();
+        super.onDestroy();
     }
 
     void updateTextViewValue(TextView textView, String prefix, double value) {
@@ -41,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         myAnim.setInterpolator(interpolator);
         Button button = (Button)findViewById(R.id.play_button);
         button.startAnimation(myAnim);
+        playSound();
 
         myAnim.setAnimationListener(new Animation.AnimationListener(){
             @Override
@@ -54,6 +64,14 @@ public class MainActivity extends AppCompatActivity {
                 animateButton();
             }
         });
+    }
+
+    void playSound() {
+        if (mPlayer == null) {
+            mPlayer = MediaPlayer.create(MainActivity.this, R.raw.bubble);
+        }
+        mPlayer.seekTo(0);
+        mPlayer.start();
     }
 
     // Duration controls
