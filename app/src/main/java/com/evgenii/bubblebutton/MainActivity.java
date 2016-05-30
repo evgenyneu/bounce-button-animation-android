@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupDampingSeekBar();
+        setupVelocitySeekBar();
     }
 
     void updateTextViewValue(TextView textView, String prefix, double value) {
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     void animateButton() {
         final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
-        SpringInterpolator interpolator = new SpringInterpolator(6, getDampingValue());
+        SpringInterpolator interpolator = new SpringInterpolator(getVelocityValue(), getDampingValue());
         myAnim.setInterpolator(interpolator);
         Button button = (Button)findViewById(R.id.play_button);
         button.startAnimation(myAnim);
@@ -74,9 +75,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
@@ -93,5 +92,41 @@ public class MainActivity extends AppCompatActivity {
     double getDampingValue() {
         final SeekBar dampingSeekBar = (SeekBar) findViewById(R.id.seek_bar_damping);
         return getSeekBarValue(dampingSeekBar, 0.05);
+    }
+
+
+    // Velocity controls
+    // ---------------
+
+    void setupVelocitySeekBar() {
+        final SeekBar seekBar =(SeekBar) findViewById(R.id.seek_bar_velocity);
+        seekBar.setProgress(20);
+        updateVelocityLabel();
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                animateButton();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                updateVelocityLabel();
+            }
+        });
+    }
+
+    void updateVelocityLabel() {
+        TextView textView = (TextView) findViewById(R.id.text_view_velocity);
+        updateTextViewValue(textView, "Velocity", getVelocityValue());
+    }
+
+    double getVelocityValue() {
+        final SeekBar seekBar = (SeekBar) findViewById(R.id.seek_bar_velocity);
+        return getSeekBarValue(seekBar, 0.1);
     }
 }
