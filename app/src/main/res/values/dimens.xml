@@ -3,5 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="controls_margin">16dp</dimen>
+    <dimen name="controls_margin_large">32dp</dimen>
     <dimen name="button_size">92dp</dimen>
 </resources>

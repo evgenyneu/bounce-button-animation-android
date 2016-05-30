@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     double getSeekBarValue(SeekBar seekBar, double step) {
-        return (seekBar.getProgress() + 1) / ( 1 / step);
+        return ((double)seekBar.getProgress() + 1.0) / ( 1.0 / step);
     }
 
     public void didTapPlayButton(View view) {
@@ -35,11 +35,25 @@ public class MainActivity extends AppCompatActivity {
 
     void animateButton() {
         final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
-        myAnim.setDuration((long)getDurationValue() * (long)1000.0);
+        double animationDuration = getDurationValue() * 1000;
+        myAnim.setDuration((long)animationDuration);
         SpringInterpolator interpolator = new SpringInterpolator(getVelocityValue(), getDampingValue());
         myAnim.setInterpolator(interpolator);
         Button button = (Button)findViewById(R.id.play_button);
         button.startAnimation(myAnim);
+
+        myAnim.setAnimationListener(new Animation.AnimationListener(){
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                animateButton();
+            }
+        });
     }
 
     // Duration controls
@@ -47,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     void setupDurationVar() {
         final SeekBar seekBar =(SeekBar) findViewById(R.id.seek_bar_duration);
-        seekBar.setProgress(20);
+        seekBar.setProgress(10);
         updateDurationLabel();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
