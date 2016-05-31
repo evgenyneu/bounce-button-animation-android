@@ -49,8 +49,6 @@ class BounceInterpolator implements android.view.animation.Interpolator {
      */
     double mFrequency = 10;
 
-
-
     /**
      * Initialize a new interpolator.
      *
