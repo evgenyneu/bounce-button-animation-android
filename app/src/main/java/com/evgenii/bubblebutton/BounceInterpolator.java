@@ -61,15 +61,14 @@ class BounceInterpolator implements android.view.animation.Interpolator {
         mFrequency = frequency;
     }
 
-    public float getInterpolation(float t) {
-        double time = (double) t;
+    public float getInterpolation(float time) {
         double amplitude = mAmplitude;
         if (amplitude == 0) { amplitude = 0.05; }
 
         // The interpolation curve equation:
         //    -e^(-time / amplitude) * cos(frequency * time) + 1
         //
-        // View the graph live: https://www.desmos.com/calculator/6z5qef9tgc
-        return (float) (-1 * Math.pow(Math.E, -time/ amplitude) * Math.cos(mFrequency * time) + 1);
+        // View the graph live: https://www.desmos.com/calculator/6gbvrm5i0s
+        return (float) (-1 * Math.pow(Math.E, -time/ mAmplitude) * Math.cos(mFrequency * time) + 1);
     }
 }
