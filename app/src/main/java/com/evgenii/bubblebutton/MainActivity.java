@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -19,13 +18,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setupDampingSeekBar();
-        setupVelocitySeekBar();
+
+        setupAmplitudeSeekBar();
+        setupFrequencySeekBar();
         setupDurationVar();
+
+        animateButton();
     }
 
     public void onDestroy() {
-        mPlayer.stop();
+        // Stop the sound
+        if (mPlayer != null) {
+            mPlayer.stop();
+            mPlayer = null;
+        }
+
         super.onDestroy();
     }
 
@@ -43,22 +50,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void animateButton() {
+        // Load the animation
         final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
         double animationDuration = getDurationValue() * 1000;
         myAnim.setDuration((long)animationDuration);
-        SpringInterpolator interpolator = new SpringInterpolator(getVelocityValue(), getDampingValue());
+
+        // Use custom animation interpolator to achieve the bounce effect
+        BounceInterpolator interpolator = new BounceInterpolator(getAmplitudeValue(), getFrequencyValue());
+
         myAnim.setInterpolator(interpolator);
+
+        // Animate the button
         Button button = (Button)findViewById(R.id.play_button);
         button.startAnimation(myAnim);
         playSound();
 
+        // Run button animation again after it finished
         myAnim.setAnimationListener(new Animation.AnimationListener(){
             @Override
-            public void onAnimationStart(Animation arg0) {
-            }
+            public void onAnimationStart(Animation arg0) {}
+
             @Override
-            public void onAnimationRepeat(Animation arg0) {
-            }
+            public void onAnimationRepeat(Animation arg0) {}
+
             @Override
             public void onAnimationEnd(Animation arg0) {
                 animateButton();
@@ -81,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     void setupDurationVar() {
         final SeekBar seekBar =(SeekBar) findViewById(R.id.seek_bar_duration);
-        seekBar.setProgress(10);
+        seekBar.setProgress(19);
         updateDurationLabel();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -112,13 +126,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // Damping controls
+    // Amplitude controls
     // ---------------
 
-    void setupDampingSeekBar() {
-        final SeekBar dampingSeekBar =(SeekBar) findViewById(R.id.seek_bar_damping);
-        dampingSeekBar.setProgress(10);
-        updateDampingLabel();
+    void setupAmplitudeSeekBar() {
+        final SeekBar dampingSeekBar =(SeekBar) findViewById(R.id.seek_bar_amplitude);
+        dampingSeekBar.setProgress(19);
+        updateAmplitudeLabel();
 
         dampingSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -132,29 +146,29 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
-                updateDampingLabel();
+                updateAmplitudeLabel();
             }
         });
     }
 
-    void updateDampingLabel() {
-        TextView textViewDamping = (TextView) findViewById(R.id.text_view_damping);
-        updateTextViewValue(textViewDamping, "Damping", getDampingValue());
+    void updateAmplitudeLabel() {
+        TextView textViewDamping = (TextView) findViewById(R.id.text_view_amplitude);
+        updateTextViewValue(textViewDamping, "Amplitude", getAmplitudeValue());
     }
 
-    double getDampingValue() {
-        final SeekBar dampingSeekBar = (SeekBar) findViewById(R.id.seek_bar_damping);
-        return getSeekBarValue(dampingSeekBar, 0.05);
+    double getAmplitudeValue() {
+        final SeekBar dampingSeekBar = (SeekBar) findViewById(R.id.seek_bar_amplitude);
+        return getSeekBarValue(dampingSeekBar, 0.01);
     }
 
 
-    // Velocity controls
+    // Frequency controls
     // ---------------
 
-    void setupVelocitySeekBar() {
-        final SeekBar seekBar =(SeekBar) findViewById(R.id.seek_bar_velocity);
-        seekBar.setProgress(20);
-        updateVelocityLabel();
+    void setupFrequencySeekBar() {
+        final SeekBar seekBar =(SeekBar) findViewById(R.id.seek_bar_frequency);
+        seekBar.setProgress(39);
+        updateFrequencyLabel();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -168,18 +182,18 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
-                updateVelocityLabel();
+                updateFrequencyLabel();
             }
         });
     }
 
-    void updateVelocityLabel() {
-        TextView textView = (TextView) findViewById(R.id.text_view_velocity);
-        updateTextViewValue(textView, "Velocity", getVelocityValue());
+    void updateFrequencyLabel() {
+        TextView textView = (TextView) findViewById(R.id.text_view_frequency);
+        updateTextViewValue(textView, "Frequency", getFrequencyValue());
     }
 
-    double getVelocityValue() {
-        final SeekBar seekBar = (SeekBar) findViewById(R.id.seek_bar_velocity);
-        return getSeekBarValue(seekBar, 0.1);
+    double getFrequencyValue() {
+        final SeekBar seekBar = (SeekBar) findViewById(R.id.seek_bar_frequency);
+        return getSeekBarValue(seekBar, 0.5);
     }
 }

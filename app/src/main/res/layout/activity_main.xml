@@ -27,10 +27,10 @@
         android:max="49"/>
 
 
-    <!-- Damping controls -->
+    <!-- Amplitude controls -->
 
     <TextView
-        android:id="@+id/text_view_damping"
+        android:id="@+id/text_view_amplitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/controls_margin"
@@ -38,37 +38,40 @@
         android:layout_centerHorizontal="true" />
 
     <SeekBar
-        android:id="@+id/seek_bar_damping"
+        android:id="@+id/seek_bar_amplitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_damping"
-        android:max="39"/>
+        android:layout_below="@id/text_view_amplitude"
+        android:max="199"/>
 
 
 
-    <!-- Velocity controls -->
+    <!-- Frequency controls -->
 
     <TextView
-        android:id="@+id/text_view_velocity"
+        android:id="@+id/text_view_frequency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/controls_margin"
-        android:layout_below="@id/seek_bar_damping"
+        android:layout_below="@id/seek_bar_amplitude"
         android:layout_centerHorizontal="true" />
 
     <SeekBar
-        android:id="@+id/seek_bar_velocity"
+        android:id="@+id/seek_bar_frequency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_velocity"
-        android:max="99"/>
+        android:layout_below="@id/text_view_frequency"
+        android:max="199"/>
+
+
+    <!-- The button  -->
 
     <Button
         android:id="@+id/play_button"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_marginTop="@dimen/controls_margin_large"
-        android:layout_below="@id/seek_bar_velocity"
+        android:layout_below="@id/text_view_frequency"
         android:onClick="didTapPlayButton"
         android:layout_centerHorizontal="true"
         android:background="@drawable/play" />
