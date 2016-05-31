@@ -39,7 +39,7 @@ package com.evgenii.bubblebutton;
 //
 class BounceInterpolator implements android.view.animation.Interpolator {
     /**
-     * The amplitude of the bounces. The higher the value (10, for example) produces more pronounced bounces.
+     * The amplitude of the bounces. The higher value (10, for example) produces more pronounced bounces.
      * The lower values (0.1, for example) produce less noticeable wobbles.
      */
     double mAmplitude = 1;
@@ -52,7 +52,7 @@ class BounceInterpolator implements android.view.animation.Interpolator {
     /**
      * Initialize a new interpolator.
      *
-     * @param      amplitude   The amplitude of the bounces. The higher the value produces more pronounced bounces. The lower values (0.1, for example) produce less noticeable wobbles.
+     * @param      amplitude   The amplitude of the bounces. The higher value produces more pronounced bounces. The lower values (0.1, for example) produce less noticeable wobbles.
      * @param      frequency   The frequency of the bounces. The higher value produces more wobbles during the animation time period.
      *
      */
