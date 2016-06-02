@@ -4,7 +4,7 @@ package com.evgenii.bubblebutton;
 // Interpolator to be used with Android view Animation class to achieve the spring-bounce effect.
 //
 // License: MIT
-// Source: http://evgenii.com
+// Source: http://evgenii.com/blog/spring-button-animation-on-android/
 //
 // Usage example, make the button wobble in scale:
 // ------------
