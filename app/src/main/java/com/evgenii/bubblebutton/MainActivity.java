@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         myAnim.setDuration((long)animationDuration);
 
         // Use custom animation interpolator to achieve the bounce effect
-        BounceInterpolator interpolator = new BounceInterpolator(getAmplitudeValue(), getFrequencyValue());
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(getAmplitudeValue(), getFrequencyValue());
 
         myAnim.setInterpolator(interpolator);
 

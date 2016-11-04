@@ -14,7 +14,7 @@ package com.evgenii.bubblebutton;
 //    double animationDuration = getDurationValue() * 1000;
 //
 //    // Create interpolator with the amplitude 0.2 and frequency 20
-//    SpringInterpolator interpolator = new BounceInterpolator(0.2, 20);
+//    MyBounceInterpolator interpolator = new MyBounceInterpolator(0.2, 20);
 //
 //    myAnim.setInterpolator(interpolator);
 //    Button button = (Button)findViewById(R.id.button_to_animate);
@@ -37,7 +37,7 @@ package com.evgenii.bubblebutton;
 //    </set>
 //
 //
-public class BounceInterpolator implements android.view.animation.Interpolator {
+public class MyBounceInterpolator implements android.view.animation.Interpolator {
     /**
      * The amplitude of the bounces. The higher value (10, for example) produces more pronounced bounces.
      * The lower values (0.1, for example) produce less noticeable wobbles.
@@ -56,7 +56,7 @@ public class BounceInterpolator implements android.view.animation.Interpolator {
      * @param      frequency   The frequency of the bounces. The higher value produces more wobbles during the animation time period.
      *
      */
-    public BounceInterpolator(double amplitude, double frequency) {
+    public MyBounceInterpolator(double amplitude, double frequency) {
         mAmplitude = amplitude;
         mFrequency = frequency;
     }
